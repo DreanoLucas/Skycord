@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Page de connexion</title>
+  <link rel="stylesheet" href="../CSS/page_de_connexion.css">
+  <script>
+    function retournerPageConnexion() {
+      var confirmation = confirm("Voulez-vous retourner à la page de connexion ?");
+      if (confirmation) {
+        window.location.href = "page_de_connexion.html";
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="Mot_de_passe">
+    <h1>Mot de passe oublié</h1>
+    <form action="login.html" method="post" class="login-form">
+      <div>      
+        <input type="text" placeholder="E-mail">
+      </div>
+      <div>
+        <button type="button" onclick="retournerPageConnexion()">Envoyer sur ce mail</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
