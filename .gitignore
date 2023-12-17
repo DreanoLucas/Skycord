@@ -5,3 +5,8 @@ config.ini
 api_key.txt
 *.log
 *.json
+build
+dist
+Skycord.egg-info
+api_key
+__pycache__
