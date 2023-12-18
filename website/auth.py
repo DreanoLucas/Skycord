@@ -1,13 +1,11 @@
 
 from flask import Blueprint, render_template, request, flash, redirect, url_for, Flask
 from .models import User 
-from . import db, recup_info as rc
+from . import db, mail
 import secrets
-from flask_mail import Mail, Message
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-
-
+from flask_mail import Mail, Message
 
 
 auth = Blueprint('auth', __name__)
@@ -80,25 +78,14 @@ def sign_up():
 
 
 
-
-
-code_secret = rc.donnees()
-app = Flask(__name__)
-mail = Mail(app)
-
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = 'skycord.code@gmail.com'
-app.config['MAIL_PASSWORD'] = code_secret['cle']
-print(code_secret['cle'])
 def send_confirmation_email(user):
-    confirmation_token = user.token
+
     msg = Message('Confirmation de compte', sender='skycord.code@gmail.com', recipients=[user.email])
-    print(user.email)
-    msg.body = f"Pour confirmer votre compte, veuillez cliquer sur le lien suivant: {url_for('auth.confirm_account', token=confirmation_token, _external=True)}"
+    token = user.token
+    msg.body = f"Pour confirmer votre compte, veuillez cliquer sur le lien suivant: {url_for('auth.confirm_account', token=token, _external=True)}"
     print(msg.body)
     mail.send(msg)
+    
 
 @auth.route('/confirm_account/<token>')
 def confirm_account(token):
