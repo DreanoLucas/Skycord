@@ -69,7 +69,7 @@ def sign_up():
             db.session.commit()
             send_confirmation_email(new_user)
             flash('Un email de confirmation a été envoyé à votre adresse.', category='success')
-            return render_template("page_de_connexion.html")
+            return redirect(url_for('auth.login'))
     return render_template("page_inscription.html")
 
 
@@ -99,5 +99,4 @@ def confirm_account(token):
         flash('Votre compte a été confirmé avec succès!', category='success')
     else:
         flash('Le lien de confirmation est invalide ou a expiré.', category='error')
-
-    return render_template("acceuil.html", user=user)
+    return redirect(url_for('views.home'))
