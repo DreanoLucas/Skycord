@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Page de connexion</title>
+  <link rel="stylesheet" href="../CSS/page_de_connexion.css">
+  <script>
+    function deconnexion() {
+      // Supprimer le cookie d'authentification
+      document.cookie = "nomDuCookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      alert("Vous êtes déconnecté.");
+      // Rediriger vers la page de connexion ou une autre page après la déconnexion
+      window.location.href = "page_de_connexion.html";
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <!-- Votre contenu de page de connexion -->
+    <h1>Bienvenue</h1>
+    <!-- Bouton pour se déconnecter -->
+    <button onclick="deconnexion()">Se déconnecter</button>
+  </div>
+</body>
+</html>
