@@ -10,3 +10,8 @@ dist
 Skycord.egg-info
 api_key
 __pycache__
+
+.local
+*replit*
+*.lock
+*.toml

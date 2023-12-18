@@ -73,10 +73,6 @@ def sign_up():
     return render_template("page_inscription.html")
 
 
-
-
-
-
 def send_confirmation_email(user):
 
     msg = Message('Confirmation de compte', sender='skycord.code@gmail.com', recipients=[user.email])
