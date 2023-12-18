@@ -1,14 +1,19 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+
+from flask import Blueprint, render_template, request, flash, redirect, url_for, Flask
 from .models import User 
-from . import db
-
+from . import db, recup_info as rc
+import secrets
+from flask_mail import Mail, Message
 from flask_login import login_user, login_required, logout_user, current_user
-
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
 
+
 auth = Blueprint('auth', __name__)
+
+
+code_secret = rc.donnees()
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -60,13 +65,50 @@ def sign_up():
         elif(len(_password) < 7): flash('Mot de passe trop court, au moins 7 caractères est nécessaire', category='error')
         
         else : 
-            new_user = User(email=_email, login=_username, name=_username, password=generate_password_hash(_password, method='pbkdf2:sha256'))
+            new_user = User(email=_email, login=_username, name=_username, password=generate_password_hash(_password, method='pbkdf2:sha256'), token= secrets.token_urlsafe(30))
 
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
+            send_confirmation_email(new_user)
 
-            flash('Compte créé', category='success')
+            flash('Un email de confirmation a été envoyé à votre adresse.', category='success')
             return redirect(url_for('views.home'))
-
     return render_template("page_inscription.html")
+
+
+
+
+
+
+
+
+
+app = Flask(__name__)
+mail = Mail(app)
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = 'skycord.code@gmail.com'
+app.config['MAIL_PASSWORD'] = code_secret['cle']
+print(code_secret['cle'])
+def send_confirmation_email(user):
+    confirmation_token = user.token
+    msg = Message('Confirmation de compte', sender='skycord.code@gmail.com', recipients=[user.email])
+    msg.body = f"Pour confirmer votre compte, veuillez cliquer sur le lien suivant: {url_for('auth.confirm_account', token=confirmation_token, _external=True)}"
+    mail.send(msg)
+
+@auth.route('/confirm_account/<token>')
+def confirm_account(token):
+    user = User.query.filter_by(token=token).first()
+
+    if user:
+        user.confirmed = True
+        user.token = None  
+        db.session.commit()
+        flash('Votre compte a été confirmé avec succès!', category='success')
+    else:
+        flash('Le lien de confirmation est invalide ou a expiré.', category='error')
+
+    return redirect(url_for('views.home'))

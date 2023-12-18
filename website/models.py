@@ -15,3 +15,5 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(100), nullable=False)
     name = db.Column(db.String(100), nullable=False)
     message = db.relationship('Message')
+    confirmed = db.Column(db.Boolean, default=False)
+    token = db.Column(db.String(100))

@@ -1,8 +1,8 @@
 import json
 
-def donnees(nom_fichier = "data.json"):
+def donnees(nom_fichier = "data/data.json"):
     try:
-        with open("data.json", 'r') as fichier :
+        with open(nom_fichier, 'r') as fichier :
             donnees = json.load(fichier)
             return donnees
     except FileNotFoundError:
@@ -12,3 +12,5 @@ def donnees(nom_fichier = "data.json"):
         print(f"Erreur de décodage JSON : {e}")
         return None
 
+if __name__ =="__main__" :
+    print(donnees())
