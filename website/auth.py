@@ -13,7 +13,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 auth = Blueprint('auth', __name__)
 
 
-code_secret = rc.donnees()
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -83,7 +82,7 @@ def sign_up():
 
 
 
-
+code_secret = rc.donnees()
 app = Flask(__name__)
 mail = Mail(app)
 
@@ -96,7 +95,9 @@ print(code_secret['cle'])
 def send_confirmation_email(user):
     confirmation_token = user.token
     msg = Message('Confirmation de compte', sender='skycord.code@gmail.com', recipients=[user.email])
+    print(user.email)
     msg.body = f"Pour confirmer votre compte, veuillez cliquer sur le lien suivant: {url_for('auth.confirm_account', token=confirmation_token, _external=True)}"
+    print(msg.body)
     mail.send(msg)
 
 @auth.route('/confirm_account/<token>')
