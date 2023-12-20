@@ -5,10 +5,11 @@ from sqlalchemy.sql import func
 
 class User(db.Model, UserMixin):
   id = db.Column(db.Integer, primary_key=True)
-  email = db.Column(db.String(150), unique=True, nullable=False)
-  login = db.Column(db.String(50), unique=True, nullable=False)
-  password = db.Column(db.String(100), nullable=False)
-  name = db.Column(db.String(100), nullable=False)
+  email = db.Column(db.String(50), unique=True, nullable=False)
+  login = db.Column(db.String(30), unique=True, nullable=False)
+  password = db.Column(db.String(20), nullable=False)
+  name = db.Column(db.String(20), nullable=False)
+  profil = db.Column(db.String(250), nullable=True)
   message = db.relationship('Message')  # pas compris l'utilité
   confirmed = db.Column(db.Boolean, default=False)
   token = db.Column(db.String(100))
@@ -16,8 +17,8 @@ class User(db.Model, UserMixin):
 
 class Chat(db.Model):
   chat_id = db.Column(db.Integer, primary_key=True)
-  chat_name = db.Column(db.String(50), unique=True, nullable=False)
-  is_group = db.Column(db.Boolean, default=False)
+  chat_name = db.Column(db.String(100), unique=True, nullable=False)
+  is_group = db.Column(db.Boolean, default=False) # a voir si c'est utile
 
 
 class ChatMember(db.Model):
