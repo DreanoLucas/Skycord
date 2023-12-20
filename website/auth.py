@@ -10,8 +10,6 @@ from flask_mail import Mail, Message
 
 auth = Blueprint('auth', __name__)
 
-
-
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
 

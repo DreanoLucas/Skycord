@@ -5,8 +5,11 @@ config.ini
 api_key.txt
 *.log
 *.json
+
+instance
 build
 dist
+
 Skycord.egg-info
 api_key
 __pycache__
@@ -15,3 +18,5 @@ __pycache__
 *replit*
 *.lock
 *.toml
+
+.breakpoints
