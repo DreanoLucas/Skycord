@@ -5,8 +5,8 @@ config.ini
 api_key.txt
 *.log
 *.json
+*.db
 
-instance
 build
 dist
 

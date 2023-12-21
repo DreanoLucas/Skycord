@@ -37,25 +37,26 @@
 	-->
 
 	
-  <link rel="stylesheet" href="{{ url_for('static', filename='CSS/page_accueil.css') }}">
+  <link rel="stylesheet" href="../static/CSS/page_accueil.css">
 </head>
 <body>
     <div class="container">
         <div class="leftside">
             <!--header-->
-            <div class="header">
-								div
-                <div class="user">
+            <div class="header">	
+							<div class="user">
+                <div class="user_img">
                     <img src="../static/Image/user.svg"  class="cover">
                 </div>
 								<div>
-									{{ user.login }}#{{ '%04d' | format(user.id) }}
+									<b>{{ user.login }}</b>#<span style="color:grey">{{ '%04d' | format(user.id) }}</span>
 								</div>
-                <ul class="nav_icons">
-                    <li><ion-icon name="scan-circle-outline"></ion-icon></li>
-                    <li><ion-icon name="chatbox"></ion-icon></li>
-                    <li><ion-icon name="ellipsis-vertical"></ion-icon></li>
-                </ul>
+							</div>
+							<ul class="nav_icons">
+									<li><ion-icon name="scan-circle-outline"></ion-icon></li>
+									<li><ion-icon name="chatbox"></ion-icon></li>
+									<li><ion-icon name="ellipsis-vertical"></ion-icon></li>
+							</ul>
             </div>
             <!--search-->
             <div class="search_chat">
@@ -66,6 +67,29 @@
             </div>
             <!--chat list-->
             <div class="chatlist">
+
+							<!-- EN TEST : Bloc d'import des groupes depuis le sql -->
+
+							{% if chats is not none %}
+									{% for id, chat_name, last_message, date in chats %}
+											<div class="block">
+													<div class="imgbx">
+															<img src="../Image/user.svg" class="cover">
+													</div>
+													<div class="details">
+															<div class="listHead">
+																	<h4> {{ chat_name }} </h4>
+																	<p class="time"> {{ date }} </p>
+															</div>
+															<div class="message_p">
+																	<p> {{ last_message }}</p>
+															</div>
+													</div>
+											</div>
+									{% endfor %}
+							{% endif %}
+
+							
                 <div class="block">
                     <div class="imgbx">
                         <img src="../Image/user.svg" class="cover">
@@ -97,6 +121,7 @@
                 </div>
             </div>
         </div>
+			
         <div class="rightside">
             <div class="header">
                 <div class="imgtext">
