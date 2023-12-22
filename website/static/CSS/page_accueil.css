@@ -63,7 +63,8 @@ body{
 
 .user{
 	display:flex; 
-	align-items:center
+	align-items:center; 
+	gap: 7px;
 }
 
 .user_img {
