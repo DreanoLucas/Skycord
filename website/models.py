@@ -36,3 +36,16 @@ class User(db.Model, UserMixin):
     message = db.relationship('Message')
     confirmed = db.Column(db.Boolean, default=False)
     token = db.Column(db.String(100))
+    friends = db.relationship('Friend', foreign_keys='Friend.user_id', backref='user', lazy=True)
+
+class Friend(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    friend_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    reciprocal = db.Column(db.Boolean, default=False)
+    
+class FriendRequest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    accepted = db.Column(db.Boolean, default=False)
