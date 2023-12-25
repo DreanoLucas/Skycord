@@ -15,13 +15,13 @@ def add_friend():
             existing_request = FriendRequest.query.filter_by(sender_id=1, receiver_id=ami_exist.id, accepted=False).first()
 
             if existing_request:
-                flash(f"Une demande d'amitié est déjà en attente pour {friend_name}.", category='error')
+                flash(f"Une demande d'ami est déjà en attente pour {friend_name}.", category='error')
             else:
                 current_user = User.query.filter_by(login='utilisateur_actuel').first()
                 new_request = FriendRequest(sender_id=current_user.id, receiver_id=ami_exist.id)
                 db.session.add(new_request)
                 db.session.commit()
-                flash(f"Demande d'amitié envoyée à {friend_name}. Attendez la confirmation.", category='success')
+                flash(f"Demande d'ami envoyée à {friend_name}. Attendez la confirmation.", category='success')
 
         else:
             flash(f"{friend_name} n'existe pas.", category='error')
@@ -49,6 +49,6 @@ def accept_demand(demande_id):
 
         flash(f"Vous êtes maintenant ami avec {friend_request.sender.name}.", category='success')
     else:
-        flash("Demande d'amitié introuvable.", category='error')
+        flash("Demande d'ami introuvable.", category='error')
 
     return redirect(url_for('friend.friend_demand'))
