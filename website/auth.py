@@ -51,10 +51,10 @@ def sign_up():
         _password = request.form.get("password")
 
         user = User.query.filter_by(login=_username).first()
-
+        email = User.query.filter_by(email=_email).first()
         if user:
             flash("Compte déjà existant", category='error')
-
+        elif email : flash(f"email déjà attribuée au compte {email.login}", category='error')
         elif(len(_email) < 4): flash('Email trop courte', category='error')
         elif(len(_username) < 4): flash('Nom trop court, au moins 4 caractères est nécessaire ', category='error')
         elif(len(_password) < 7): flash('Mot de passe trop court, au moins 7 caractères est nécessaire', category='error')
