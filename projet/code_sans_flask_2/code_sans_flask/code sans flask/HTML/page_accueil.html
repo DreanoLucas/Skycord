@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Accueil</title>
+  <link rel="stylesheet" href="../CSS/page_acuuel.css">
+</head>
+<body>
+    <div class="container">
+        <div class="leftside">
+            <!--header-->
+            <div class="header">
+                <div class="user">
+                    <img src="../Image/user.svg"  class="cover">
+                </div>
+                <ul class="nav_icons">
+                    <li><ion-icon name="scan-circle-outline"></ion-icon></li>
+                    <li><ion-icon name="chatbox"></ion-icon></li>
+                    <li><ion-icon name="ellipsis-vertical"></ion-icon></li>
+                </ul>
+            </div>
+            <!--search-->
+            <div class="search_chat">
+                <div>
+                    <input type="text" placeholder="Recherche">
+                    <ion-icon name="search-outline"></ion-icon>
+                </div>
+            </div>
+            <!--chat list-->
+            <div class="chatlist">
+                <div class="block">
+                    <div class="imgbx">
+                        <img src="../Image/user.svg" class="cover">
+                    </div>
+                    <div class="details">
+                        <div class="listHead">
+                            <h4>Samir</h4>  <!--le nom de l'ami-->
+                            <p class="time">11:00 </p> <!--le temps du dernier message-->
+                        </div>
+                        <div class="message_p">
+                            <p>je suis incroyablement nulle au code donc je regarde des vidéo</p> <!--son dernier message-->
+                        </div>
+                    </div>
+                </div>
+                <div class="block unread">
+                    <div class="imgbx">
+                        ,<img src="../Image/user.svg" class="cover">
+                    </div>
+                    <div class="details">
+                        <div class="listHead">
+                            <h4>joel</h4> <!-- un autre ami-->
+                            <p class="time">11:00 </p>
+                        </div>
+                        <div class="message_p">
+                            <p>ccc </p>
+                            <b>1</b> <!--si le message n'est pas lu -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rightside">
+            <div class="header">
+                <div class="imgtext">
+                    <div class="user1">
+                        <img src="../Image/user.svg"  class="cover">
+                    </div>
+                    <h4>Prenom<br><span>Online</span></h4> <!--le nom du contact et si il est en ligne ou non-->
+                </div>
+                <ul class="nav_icons">
+                    <li><ion-icon name="scan-circle-outline"></ion-icon></li>
+                    <li><ion-icon name="ellipsis-vertical"></ion-icon></li>
+                </ul>
+            </div>
+
+            <!--chatbox-->
+            <div class="chatbox">
+                <div class="amis1">
+                    <div class="message my_message">
+                        <p>Salut moi c'est kim et Samuel est une pétasse<br><span>12:15</span></p>  <!--le temps du message envoyé-->
+                    </div>
+                    <div class="message frnd_message">
+                        <p>Salut moi c'est Samir et je confirme Samuel est une pétasse <br><span>12:16</span></p>
+                    </div>  
+                </div>
+                <div class="amis2">
+                    <div class="message my_message">
+                        <p>Salut joel<br><span>12:15</span></p>  <!--le temps du message envoyé-->
+                    </div>
+                    <div class="message frnd_message">
+                        <p>Bonjour kim et je confirme ce qu'a dit Samir<br><span>12:16</span></p>
+                    </div>  
+                </div>
+            </div>
+            <!--chat input-->
+            <div class="chatbox_input">
+                <input type="text" placeholder="Type a message">
+                <ion-icon name="send-outline"></ion-icon>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const samir = document.querySelector('.leftside .block:nth-child(1)');
+            const joel = document.querySelector('.leftside .block:nth-child(2)');
+            
+            const amis1 = document.querySelector('.rightside .amis1');
+            const amis2 = document.querySelector('.rightside .amis2');
+            const imgtext = document.querySelector('.rightside .imgtext h4');
+
+            samir.addEventListener('click', () => {
+                amis1.style.display = 'block';
+                amis2.style.display = 'none';
+                imgtext.innerHTML = 'Samir<br><span>Online</span>';
+            });
+
+            joel.addEventListener('click', () => {
+                amis1.style.display = 'none';
+                amis2.style.display = 'block';
+                imgtext.innerHTML = 'Joel<br><span>Online</span>';
+            });
+        });
+    </script>
+</body>
+</html>

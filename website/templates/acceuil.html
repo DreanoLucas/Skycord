@@ -35,6 +35,10 @@
               </button>
             </div>
             {% endif %} {% endfor %} {% endif %} {% endwith %}        
-        <p>test</p>
+            {% if user.is_authenticated %}
+            <p>Bienvenue, {{ user.login }}!</p>
+        {% else %}
+            <p>Bienvenue, visiteur!</p>
+        {% endif %}
     </body>
 </html>
