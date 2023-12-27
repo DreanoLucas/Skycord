@@ -1,25 +1,9 @@
-"""Handles the database models for user authentication and message storage.
-
-This script defines two SQLAlchemy models: 'User' and 'Message'. 
-- 'User' represents user details and authentication information.
-- 'Message' stores messages associated with users.
-
-Classes:
-    Message: Represents stored messages, linked to User.
-    User: Represents user details and authentication.
-
-Dependencies:
-    - db: The database instance.
-    - UserMixin: Flask-Login helper class for User model.
-
-Note:
-    Ensure the models align with your application's authentication and message storage requirements.
-"""
-
-
 from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
+
+
+
 
 
 class User(db.Model, UserMixin):
