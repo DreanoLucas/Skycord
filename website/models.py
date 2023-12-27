@@ -1,3 +1,22 @@
+"""Handles the database models for user authentication and message storage.
+
+This script defines two SQLAlchemy models: 'User' and 'Message'. 
+- 'User' represents user details and authentication information.
+- 'Message' stores messages associated with users.
+
+Classes:
+    Message: Represents stored messages, linked to User.
+    User: Represents user details and authentication.
+
+Dependencies:
+    - db: The database instance.
+    - UserMixin: Flask-Login helper class for User model.
+
+Note:
+    Ensure the models align with your application's authentication and message storage requirements.
+"""
+
+
 from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
@@ -13,6 +32,7 @@ class User(db.Model, UserMixin):
   message = db.relationship('Message')  # pas compris l'utilité
   confirmed = db.Column(db.Boolean, default=False)
   token = db.Column(db.String(100))
+  friends = db.relationship('Friend', foreign_keys='Friend.user_id', backref='user', lazy=True)
 
 
 class Chat(db.Model):
@@ -32,33 +52,14 @@ class Message(db.Model):
   user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
   chat_id = db.Column(db.Integer, db.ForeignKey('chat.chat_id'))
 
-
-""" 
-Avec les tables actuel pour recuperer les chats de l'utilisateur. 
-
-SELECT C.chat_id, c.chat_name, M.text
-FROM user U
-JOIN chat_member CM ON CM.user_id = U.id
-JOIN chat C ON C.chat_id = CM.chat_id
-
-JOIN (
-    SELECT chat_id, MAX(date) AS max_date
-    FROM Message
-    GROUP BY chat_id
-) MAX ON C.chat_id = MAX.chat_id
-
-JOIN message M ON 
-M.chat_id = C.chat_id 
-AND M.date = MAX.max_date
-WHERE U.id = -- Mettre l'id de l'utilisateur ici
-ORDER By M.date DESC
-
-
-
-INSERT INto chat VALUES (1, 'test', 0)
-INSERT INTO chat_member VALUES (1, 4)
-INSERT INTO chat_member VALUES (1, 3)
-
-INSERT INTO Message (date, text, user_id, chat_id)
-VALUES (datetime('now'), 'test', 3, 1);
-"""
+class Friend(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    friend_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    reciprocal = db.Column(db.Boolean, default=False)
+    
+class FriendRequest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    accepted = db.Column(db.Boolean, default=False)
