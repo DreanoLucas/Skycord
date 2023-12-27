@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Accueil</title>
+
+<!-- Message de connexion mais c'est cassé
+	<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+			integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+			crossorigin="anonymous"
+		/>
+
+	{% with messages = get_flashed_messages(with_categories=true) %} {% if
+		messages %} {% for category, message in messages %} {% if category ==
+		'error' %}
+		<div class="alert alert-danger alter-dismissable fade show" role="alert">
+			{{ message }}
+			<button type="button" class="close" data-dismiss="alert">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		{% else %}
+		<div class="alert alert-success alter-dismissable fade show" role="alert">
+			{{ message }}
+			<button type="button" class="close" data-dismiss="alert">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		{% endif %} {% endfor %} {% endif %} {% endwith %}
+	-->
+
+	
+  <link rel="stylesheet" href="../static/CSS/page_accueil.css">
+</head>
+<body>
+    <div class="container">
+        <div class="leftside">
+            <!--header-->
+            <div class="header">	
+							<div class="user">
+                <div class="user_img">
+                    <img src="../static/Image/user.svg"  class="cover">
+                </div>
+								<div>
+									<b>{{ user.login }}</b>#<span style="color:grey">{{ '%04d' | format(user.id) }}</span>
+								</div>
+							</div>
+							<ul class="nav_icons">
+									<li><ion-icon name="scan-circle-outline"></ion-icon></li>
+									<li><ion-icon name="chatbox"></ion-icon></li>
+									<li><ion-icon name="ellipsis-vertical"></ion-icon></li>
+							</ul>
+            </div>
+            <!--search-->
+            <div class="search_chat">
+                <div>
+                    <input type="text" placeholder="Recherche">
+                    <ion-icon name="search-outline"></ion-icon>
+                </div>
+            </div>
+            <!--chat list-->
+            <div class="chatlist">
+
+							<!-- EN TEST : Bloc d'import des groupes depuis le sql -->
+
+							<!--{% if chats is not none %} -->
+									{% for id, chat_name, last_message, date in chats %}
+											<div class="block">
+													<div class="imgbx">
+															<img src="../Image/user.svg" class="cover"> <!--pp du groupe ou de l'ami-->
+													</div>
+													<div class="details">
+															<div class="listHead">
+																	<h4> {{ chat_name }} </h4> <!-- nom de la conversation -->
+																	<p class="time"> {{ date }} </p> <!-- date/heure du dernier message-->
+															</div>
+															<div class="message_p">
+																	<p> {{ last_message }}</p> <!-- contenu du dernier message --> 
+															</div>
+													</div>
+											</div>
+									{% endfor %}
+							<!--{% endif %}-->
+
+						
+							<!-- 
+							
+							Ancien code pour l'affichage des conversations 
+                <div class="block">
+                    <div class="imgbx">
+                        <img src="../Image/user.svg" class="cover">
+                    </div>
+                    <div class="details">
+                        <div class="listHead">
+                            <h4>Samir</h4>  
+                            <p class="time">11:00 </p> <!--le temps du dernier message
+                        </div>
+                        <div class="message_p">
+                            <p>je suis incroyablement nulle au code donc je regarde des vidéo</p> <!--son dernier message
+                        </div>
+                    </div>
+                </div>
+                <div class="block unread">
+                    <div class="imgbx">
+                        ,<img src="../Image/user.svg" class="cover">
+                    </div>
+                    <div class="details">
+                        <div class="listHead">
+                            <h4>joel</h4> <!-- un autre ami
+                            <p class="time">11:00 </p>
+                        </div>
+                        <div class="message_p">
+                            <p>ccc </p>
+                            <b>1</b> 
+                        </div>
+                    </div>
+                </div>
+
+							-->
+            </div>
+        </div>
+			
+        <div class="rightside">
+            <div class="header">
+                <div class="imgtext">
+                    <div class="user1">
+                        <img src="../Image/user.svg"  class="cover">
+                    </div>
+                    <h4>Prenom<br><span>Online</span></h4> <!--le nom du contact et si il est en ligne ou non-->
+                </div>
+                <ul class="nav_icons">
+                    <li><ion-icon name="scan-circle-outline"></ion-icon></li>
+                    <li><ion-icon name="ellipsis-vertical"></ion-icon></li>
+                </ul>
+            </div>
+
+            <!--chatbox-->
+            <div class="chatbox">
+                <div class="amis1">
+                    <div class="message my_message">
+                        <p>Salut moi c'est kim et Samuel est une pétasse<br><span>12:15</span></p>  <!--le temps du message envoyé-->
+                    </div>
+                    <div class="message frnd_message">
+                        <p>Salut moi c'est Samir et je confirme Samuel est une pétasse <br><span>12:16</span></p>
+                    </div>  
+                </div>
+                <div class="amis2">
+                    <div class="message my_message">
+                        <p>Salut joel<br><span>12:15</span></p>  <!--le temps du message envoyé-->
+                    </div>
+                    <div class="message frnd_message">
+                        <p>Bonjour kim et je confirme ce qu'a dit Samir<br><span>12:16</span></p>
+                    </div>  
+                </div>
+            </div>
+            <!--chat input-->
+            <div class="chatbox_input">
+                <input type="text" placeholder="Type a message">
+                <ion-icon name="send-outline"></ion-icon>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const samir = document.querySelector('.leftside .block:nth-child(1)');
+            const joel = document.querySelector('.leftside .block:nth-child(2)');
+            
+            const amis1 = document.querySelector('.rightside .amis1');
+            const amis2 = document.querySelector('.rightside .amis2');
+            const imgtext = document.querySelector('.rightside .imgtext h4');
+
+            samir.addEventListener('click', () => {
+                amis1.style.display = 'block';
+                amis2.style.display = 'none';
+                imgtext.innerHTML = 'Samir<br><span>Online</span>';
+            });
+
+            joel.addEventListener('click', () => {
+                amis1.style.display = 'none';
+                amis2.style.display = 'block';
+                imgtext.innerHTML = 'Joel<br><span>Online</span>';
+            });
+        });
+    </script>
+</body>
+</html>
