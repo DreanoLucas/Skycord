@@ -23,6 +23,7 @@ from os import path
 from flask_mail import Mail, Message
 from flask_login import LoginManager
 from . import recup_info as rc
+
 db = SQLAlchemy()
 DB_NAME = "database.db"
 mail = Mail()
@@ -42,9 +43,9 @@ def create_app():
     app.config['MAIL_PORT'] = 465
     app.config['MAIL_USE_SSL'] = True
     app.config['MAIL_USERNAME'] = 'skycord.code@gmail.com'
-    app.config['MAIL_PASSWORD'] = code_secret['cle']
+    app.config['MAIL_PASSWORD'] = code_secret['mail_key']
     mail.init_app(app)
-    app.config['SECRET_KEY'] = '2fa732685307e94347cb2284f1eb8e07'
+    app.config['SECRET_KEY'] = code_secret['flask_key']
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
 
