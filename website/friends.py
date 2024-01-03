@@ -7,19 +7,33 @@ from .models import FriendRequest, User, Friend
 friend = Blueprint('friend', __name__)
 
 @friend.route('/ajouter')
+@login_required
 def ajouter():
+    print(current_user.login)
+    friend_requests = FriendRequest.query.filter_by(receiver_id=current_user.id, accepted=False).all()
+    print(friend_requests[0].id)
     return render_template('ajouter.html')
 
+# @friend.route('/friend_demand')
+# @login_required
+# def friend_demand():
+#     friend_requests = FriendRequest.query.filter_by(receiver_id=current_user.id, accepted=False).all()
+#     return render_template('demandes_amis.html', friend_requests=friend_requests)
+
+
 @friend.route('/groupe')
+@login_required
 def groupe():
     return render_template('groupe.html')
 
 @friend.route('/parametre')
+@login_required
 def parametre():
     return render_template('page_parametre.html')
 
 
 @friend.route('/add_friend', methods=['POST'])
+@login_required
 def add_friend():
     if request.method == 'POST':
         friend_name = request.form['friend_name']
@@ -43,11 +57,6 @@ def add_friend():
 
     return redirect(url_for('views.home'))
 
-@friend.route('/friend_demand')
-def friend_demand():
-    current_user = User.query.filter_by(login='utilisateur_actuel').first()
-    friend_requests = FriendRequest.query.filter_by(receiver_id=current_user.id, accepted=False).all()
-    return render_template('demandes_amis.html', friend_requests=friend_requests)
 
 @friend.route('/accept_demand/<int:demande_id>')
 def accept_demand(demande_id):
