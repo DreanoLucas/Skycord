@@ -50,10 +50,12 @@ def create_app():
     db.init_app(app)
 
     from .views import views
+    from .friends import friend
     from .auth import auth
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
+    app.register_blueprint(friend, url_prefix='/')
 
     from .models import User, Message
 

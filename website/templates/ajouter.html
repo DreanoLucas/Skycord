@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Gestion d'amis et groupes</title>
+  <link rel="stylesheet" href="../static/CSS/ajouter.css">
+</head>
+
+<body>     
+    <div class="container">
+        <div class="barre">
+            <a href="../HTML/page_accueil.html"><ion-icon name="arrow-back-outline"></ion-icon></a>
+        </div>
+        <form id="addFriendForm" method="POST" action="{{ url_for('friend.add_friend') }}">
+            <div class="contain">
+                <div class="contain1">
+                    <h1>Amis</h1>
+                    <div class="bouton">
+                        <input type="text" id="friend_name" name="friend_name" placeholder="Nom de l'ami">
+                        <div class="o">
+                            <input type="submit" class="accepter" value="Envoyer une demande">
+                        </div>
+                    </div>
+                    <div class="amisEnAttente" id="amisEnAttente">
+                        <h2>Amis en attente</h2>
+                        <div class="attente">
+                            <div class="amiEnAttente">
+                                <span>Nom de l'ami en attente 1</span>
+                                <div class="actions">
+                                    <ion-icon name="checkmark-circle-outline"></ion-icon>
+                                    <ion-icon name="close-circle-outline"></ion-icon>
+                                </div>
+                            </div>
+                            <div class="amiEnAttente">
+                                <span>Nom de l'ami en attente 2</span>
+                                <div class="actions">
+                                    <ion-icon name="checkmark-circle-outline"></ion-icon>
+                                    <ion-icon name="close-circle-outline"></ion-icon>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

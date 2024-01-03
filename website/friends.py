@@ -1,8 +1,23 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from . import db
+from flask_login import current_user, login_required
+
 from .models import FriendRequest, User, Friend
 
 friend = Blueprint('friend', __name__)
+
+@friend.route('/ajouter')
+def ajouter():
+    return render_template('ajouter.html')
+
+@friend.route('/groupe')
+def groupe():
+    return render_template('groupe.html')
+
+@friend.route('/parametre')
+def parametre():
+    return render_template('page_parametre.html')
+
 
 @friend.route('/add_friend', methods=['POST'])
 def add_friend():
@@ -10,7 +25,6 @@ def add_friend():
         friend_name = request.form['friend_name']
 
         ami_exist = User.query.filter_by(login=friend_name).first()
-
         if ami_exist:
             existing_request = FriendRequest.query.filter_by(sender_id=1, receiver_id=ami_exist.id, accepted=False).first()
 
@@ -18,6 +32,7 @@ def add_friend():
                 flash(f"Une demande d'ami est déjà en attente pour {friend_name}.", category='error')
             else:
                 current_user = User.query.filter_by(login='utilisateur_actuel').first()
+                print(current_user)
                 new_request = FriendRequest(sender_id=current_user.id, receiver_id=ami_exist.id)
                 db.session.add(new_request)
                 db.session.commit()

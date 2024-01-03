@@ -3,49 +3,60 @@
 <head>
   <meta charset="utf-8">
   <title>Accueil</title>
-  <link rel="stylesheet" href="../static/CSS/page_acuuel.css">
-  <link
-  rel="stylesheet"
-  href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-  integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-  crossorigin="anonymous"
-  />
-  <link
-  rel="stylesheet"
-  href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-  crossorigin="anonymous"
-  />
+
+<!-- Message de connexion mais c'est cassé
+	<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+			integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+			crossorigin="anonymous"
+		/>
+
+	{% with messages = get_flashed_messages(with_categories=true) %} {% if
+		messages %} {% for category, message in messages %} {% if category ==
+		'error' %}
+		<div class="alert alert-danger alter-dismissable fade show" role="alert">
+			{{ message }}
+			<button type="button" class="close" data-dismiss="alert">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		{% else %}
+		<div class="alert alert-success alter-dismissable fade show" role="alert">
+			{{ message }}
+			<button type="button" class="close" data-dismiss="alert">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		{% endif %} {% endfor %} {% endif %} {% endwith %}
+	-->
+
+	
+  <link rel="stylesheet" href="../static/CSS/page_accueil.css">
 </head>
 <body>
-    {% with messages = get_flashed_messages(with_categories=true) %} {% if
-        messages %} {% for category, message in messages %} {% if category ==
-        'error' %}
-        <div class="alert alert-danger alter-dismissable fade show" role="alert">
-          {{ message }}
-          <button type="button" class="close" data-dismiss="alert">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        {% else %}
-        <div class="alert alert-success alter-dismissable fade show" role="alert">
-          {{ message }}
-          <button type="button" class="close" data-dismiss="alert">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        {% endif %} {% endfor %} {% endif %} {% endwith %}   
     <div class="container">
         <div class="leftside">
             <!--header-->
-            <div class="header">
-                <div class="user">
-                    <img src=".../static/Image/user.svg"  class="cover">
+            <div class="header">	
+							<div class="user">
+                <div class="user_img">
+                    <img src="../static/Image/user.svg"  class="cover">
                 </div>
-                <ul class="nav_icons">
-                    <li><a href="{{ url_for('friend.ajouter') }}"><ion-icon name="person-add-outline"></ion-icon></a></li>
-                    <li><a href="../HTML/groupe.html"><ion-icon name="people-outline"></ion-icon></a></li>
-                    <li><a href="../HTML/page_parametre.html"><ion-icon name="ellipsis-vertical"></ion-icon></a></li>
-                </ul>
+								<div>
+									<b>{{ user.login }}</b>#<span style="color:grey">{{ '%04d' | format(user.id) }}</span>
+								</div>
+							</div>
+							<ul class="nav_icons">
+									<li><ion-icon name="scan-circle-outline"></ion-icon></li>
+									<li><ion-icon name="chatbox"></ion-icon></li>
+									<li><ion-icon name="ellipsis-vertical"></ion-icon></li>
+							</ul>
             </div>
             <!--search-->
             <div class="search_chat">
@@ -56,17 +67,43 @@
             </div>
             <!--chat list-->
             <div class="chatlist">
+
+							<!-- EN TEST : Bloc d'import des groupes depuis le sql -->
+
+							<!--{% if chats is not none %} -->
+									{% for id, chat_name, last_message, date in chats %}
+											<div class="block">
+													<div class="imgbx">
+															<img src="../Image/user.svg" class="cover"> <!--pp du groupe ou de l'ami-->
+													</div>
+													<div class="details">
+															<div class="listHead">
+																	<h4> {{ chat_name }} </h4> <!-- nom de la conversation -->
+																	<p class="time"> {{ date }} </p> <!-- date/heure du dernier message-->
+															</div>
+															<div class="message_p">
+																	<p> {{ last_message }}</p> <!-- contenu du dernier message --> 
+															</div>
+													</div>
+											</div>
+									{% endfor %}
+							<!--{% endif %}-->
+
+						
+							<!-- 
+							
+							Ancien code pour l'affichage des conversations 
                 <div class="block">
                     <div class="imgbx">
                         <img src="../Image/user.svg" class="cover">
                     </div>
                     <div class="details">
                         <div class="listHead">
-                            <h4>Samir</h4>  <!--le nom de l'ami-->
-                            <p class="time">11:00 </p> <!--le temps du dernier message-->
+                            <h4>Samir</h4>  
+                            <p class="time">11:00 </p> <!--le temps du dernier message
                         </div>
                         <div class="message_p">
-                            <p>je suis incroyablement nulle au code donc je regarde des vidéo</p> <!--son dernier message-->
+                            <p>je suis incroyablement nulle au code donc je regarde des vidéo</p> <!--son dernier message
                         </div>
                     </div>
                 </div>
@@ -76,17 +113,20 @@
                     </div>
                     <div class="details">
                         <div class="listHead">
-                            <h4>joel</h4> <!-- un autre ami-->
+                            <h4>joel</h4> <!-- un autre ami
                             <p class="time">11:00 </p>
                         </div>
                         <div class="message_p">
                             <p>ccc </p>
-                            <b>1</b> <!--si le message n'est pas lu -->
+                            <b>1</b> 
                         </div>
                     </div>
                 </div>
+
+							-->
             </div>
         </div>
+			
         <div class="rightside">
             <div class="header">
                 <div class="imgtext">
