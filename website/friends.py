@@ -9,17 +9,19 @@ friend = Blueprint('friend', __name__)
 @friend.route('/ajouter')
 @login_required
 def ajouter():
-    print(current_user.login)
+    amisDemandeListe = []
+
     friend_requests = FriendRequest.query.filter_by(receiver_id=current_user.id, accepted=False).all()
-    print(friend_requests[0].id)
-    return render_template('ajouter.html')
+    for i in friend_requests:
+        amisDemandeListe.append(User.query.filter_by(id=i.sender_id).first())
+    return render_template('ajouter.html', donnees=amisDemandeListe)
 
-# @friend.route('/friend_demand')
-# @login_required
-# def friend_demand():
-#     friend_requests = FriendRequest.query.filter_by(receiver_id=current_user.id, accepted=False).all()
-#     return render_template('demandes_amis.html', friend_requests=friend_requests)
-
+@friend.route('/friend_demand')
+@login_required
+def friend_demand():
+    current_user = User.query.filter_by(login='utilisateur_actuel').first()
+    friend_requests = FriendRequest.query.filter_by(receiver_id=current_user.id, accepted=False).all()
+    return render_template('demandes_amis.html', friend_requests=friend_requests)
 
 @friend.route('/groupe')
 @login_required
@@ -58,21 +60,27 @@ def add_friend():
     return redirect(url_for('views.home'))
 
 
-@friend.route('/accept_demand/<int:demande_id>')
-def accept_demand(demande_id):
+@friend.route('/accept_demand')
+def accept_demand():
+    demande_id = 1
     friend_request = FriendRequest.query.get(demande_id)
+    print(friend_request)
 
     if friend_request:
+        print("aaa")
         friend_request.accepted = True
 
         friend_entry_1 = Friend(user_id=friend_request.sender_id, friend_id=friend_request.receiver_id)
+        print(friend_entry_1)
         friend_entry_2 = Friend(user_id=friend_request.receiver_id, friend_id=friend_request.sender_id, reciprocal=True)
+        print(friend_entry_2)
 
         db.session.add_all([friend_entry_1, friend_entry_2])
         db.session.commit()
 
         flash(f"Vous êtes maintenant ami avec {friend_request.sender.name}.", category='success')
     else:
+        print("bbb")
         flash("Demande d'ami introuvable.", category='error')
 
-    return redirect(url_for('friend.friend_demand'))
+    #return redirect(url_for('friend.friend_demand'))

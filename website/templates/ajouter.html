@@ -22,23 +22,24 @@
                     </div>
                     <div class="amisEnAttente" id="amisEnAttente">
                         <h2>Amis en attente</h2>
-                        <div class="attente">
-                            <div class="amiEnAttente">
-                                <span>Nom de l'ami en attente 1</span>
-                                <div class="actions">
-                                    <ion-icon name="checkmark-circle-outline"></ion-icon>
-                                    <ion-icon name="close-circle-outline"></ion-icon>
-                                </div>
-                            </div>
-                            <div class="amiEnAttente">
-                                <span>Nom de l'ami en attente 2</span>
-                                <div class="actions">
-                                    <ion-icon name="checkmark-circle-outline"></ion-icon>
-                                    <ion-icon name="close-circle-outline"></ion-icon>
-                                </div>
-                            </div>
+                        <div class="amiEnAttente">
+                            <ul>
+                                {% for row in donnees %}
+                                    <li>
+                                        {{ row.login }}
+                                        <form method="POST" action="{{ url_for('friend.accept_demand')}}">
+
+                                            <button type="submit">Accepter</button>
+                                        </form>
+                                        <form method="POST" action="{{ url_for('friend.accept_demand')}}">
+                                            <button type="submit">Refuser</button>
+                                        </form>
+                                    </li> 
+                                {% endfor %}
+                            </ul>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </form>
