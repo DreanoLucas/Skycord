@@ -21,7 +21,7 @@ def ajouter():
 def friend_demand():
     current_user = User.query.filter_by(login='utilisateur_actuel').first()
     friend_requests = FriendRequest.query.filter_by(receiver_id=current_user.id, accepted=False).all()
-    return render_template('demandes_amis.html', friend_requests=friend_requests)
+    return render_template('ajouter.html', friend_requests=friend_requests)
 
 @friend.route('/groupe')
 @login_required
