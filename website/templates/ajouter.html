@@ -27,11 +27,11 @@
                                 {% for row in donnees %}
                                     <li>
                                         {{ row.login }}
-                                        <form method="POST" action="{{ url_for('friend.accept_demand')}}">
+                                        <form method="POST" action="{{ url_for('friend.accept_demand', demande_id=row.id)}}">
 
                                             <button type="submit">Accepter</button>
                                         </form>
-                                        <form method="POST" action="{{ url_for('friend.accept_demand')}}">
+                                        <form method="POST" action="{{ url_for('friend.accept_demand', demande_id=row.id)}}">
                                             <button type="submit">Refuser</button>
                                         </form>
                                     </li> 

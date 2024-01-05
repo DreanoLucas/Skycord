@@ -60,27 +60,21 @@ def add_friend():
     return redirect(url_for('views.home'))
 
 
-@friend.route('/accept_demand')
-def accept_demand():
-    demande_id = 1
+@friend.route('/accept_demand/<int:demande_id>', methods=['POST'])
+def accept_demand(demande_id):
     friend_request = FriendRequest.query.get(demande_id)
-    print(friend_request)
 
     if friend_request:
-        print("aaa")
         friend_request.accepted = True
 
         friend_entry_1 = Friend(user_id=friend_request.sender_id, friend_id=friend_request.receiver_id)
-        print(friend_entry_1)
         friend_entry_2 = Friend(user_id=friend_request.receiver_id, friend_id=friend_request.sender_id, reciprocal=True)
-        print(friend_entry_2)
 
         db.session.add_all([friend_entry_1, friend_entry_2])
         db.session.commit()
 
         flash(f"Vous êtes maintenant ami avec {friend_request.sender.name}.", category='success')
     else:
-        print("bbb")
         flash("Demande d'ami introuvable.", category='error')
 
-    #return redirect(url_for('friend.friend_demand'))
+    return redirect(url_for('friend.friend_demand'))
