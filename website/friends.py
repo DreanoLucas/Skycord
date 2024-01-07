@@ -15,7 +15,7 @@ def ajouter():
     
     for friend_request in friend_requests:
         sender = User.query.filter_by(id=friend_request.sender_id).first()
-        sender.id_demande = friend_request.id  # Ajoutez l'ID de la demande d'ami comme attribut
+        sender.id_demande = friend_request.id  
         amisDemandeListe.append(sender)
     
     return render_template('ajouter.html', donnees=amisDemandeListe)
