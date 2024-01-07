@@ -65,7 +65,7 @@ def login():
             if user.confirmed == False:
                 flash('e-mail non validé', category='error')
             elif check_password_hash(user.password, _password):
-                flash('Connectés', category='success')
+                flash('Connecté', category='success')
                 login_user(user, remember=True)
                 return redirect(url_for('views.home'))
             else:
