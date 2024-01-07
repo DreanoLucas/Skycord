@@ -9,11 +9,15 @@ friend = Blueprint('friend', __name__)
 @friend.route('/ajouter')
 @login_required
 def ajouter():
-    amisDemandeListe = []
 
+    amisDemandeListe = []
     friend_requests = FriendRequest.query.filter_by(receiver_id=current_user.id, accepted=False).all()
-    for i in friend_requests:
-        amisDemandeListe.append(User.query.filter_by(id=i.sender_id).first())
+    
+    for friend_request in friend_requests:
+        sender = User.query.filter_by(id=friend_request.sender_id).first()
+        sender.id_demande = friend_request.id  # Ajoutez l'ID de la demande d'ami comme attribut
+        amisDemandeListe.append(sender)
+    
     return render_template('ajouter.html', donnees=amisDemandeListe)
 
 @friend.route('/groupe')
@@ -66,7 +70,8 @@ def add_friend():
 @friend.route('/accept_demand/<int:demande_id>', methods=['POST'])
 def accept_demand(demande_id):
     friend_request = FriendRequest.query.get(demande_id)
-
+    print(friend_request)
+    print(demande_id)
     if friend_request:
         friend_request.accepted = True
 
@@ -79,7 +84,6 @@ def accept_demand(demande_id):
         chat_member_1 = ChatMember(chat_id=new_chat.chat_id, user_id=friend_request.sender_id)
         chat_member_2 = ChatMember(chat_id=new_chat.chat_id, user_id=friend_request.receiver_id)
         db.session.add_all([chat_member_1, chat_member_2])
-        db.session.commit()
         db.session.commit()
 
         flash(f"Vous êtes maintenant ami avec {friend_request.sender.name}.", category='success')
@@ -118,8 +122,6 @@ def getChatDetails(chat_id):
         receiverName = User.query.filter_by(id=member_ids[0]).first().name
     messages_users = []
 
-    print(receiverName)
-    print(current_user.name)
     for message in all_messages:
         sender = User.query.filter_by(id=message.user_id).first().id
         receiver = User.query.filter_by(id=message.user_id).first().id
@@ -137,3 +139,41 @@ def getChatDetails(chat_id):
     session['sorted_messages'] = messages_users
     return redirect(url_for('views.home'))
 
+
+
+from flask import jsonify
+@friend.route('/remove_all_friendships')
+def remove_all_relationships():
+    try:
+        # Supprimer toutes les entrées de la table Friend
+        db.session.query(Friend).delete()
+
+        # Supprimer toutes les entrées de la table FriendRequest
+        db.session.query(FriendRequest).delete()
+
+
+        db.session.query(Chat).delete()
+        db.session.query(ChatMember).delete()
+        # Valider la transaction
+        db.session.commit()
+
+        return jsonify({'status': 'success', 'message': 'Toutes les relations ont été supprimées.'}), 200
+    except Exception as e:
+        # En cas d'erreur, annuler la transaction et renvoyer une réponse d'erreur
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+      
+
+@friend.route('/check_friendship/<int:user_id1>/<int:user_id2>', methods=['GET'])
+def check_friendship(user_id1, user_id2):
+    friendship_entry = Friend.query.filter(
+        (Friend.user_id == user_id1) & (Friend.friend_id == user_id2) |
+        (Friend.user_id == user_id2) & (Friend.friend_id == user_id1)
+    ).first()
+
+    if friendship_entry:
+        # Les utilisateurs sont déjà amis
+        return jsonify({'status': 'success', 'message': 'Les utilisateurs sont amis.'}), 200
+    else:
+        # Les utilisateurs ne sont pas amis
+        return jsonify({'status': 'error', 'message': 'Les utilisateurs ne sont pas amis.'}), 404

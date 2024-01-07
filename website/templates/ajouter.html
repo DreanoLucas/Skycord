@@ -52,10 +52,10 @@
                             <li>
                                 {{ row.login }}
                                 <div class="actions">
-                                <form method="POST" action="{{ url_for('friend.accept_demand', demande_id=row.id)}}">
+                                <form method="POST" action="{{ url_for('friend.accept_demand', demande_id=row.id_demande)}}">
                                     <button type="submit">Accepter</button>
                                 </form>
-                                <form method="POST" action="{{ url_for('friend.reject_demand', demande_id=row.id)}}">
+                                <form method="POST" action="{{ url_for('friend.reject_demand', demande_id=row.id_demande)}}">
                                     <button type="submit">Refuser</button>
                                 </form>
                                 </div>
