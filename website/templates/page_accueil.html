@@ -55,7 +55,8 @@
             <!--chat list-->
             <div class="chatlist">
                 {% for chat in chats %}
-                    <div class="block">
+                <a href="{{ url_for('friend.getChatDetails', chat_id=chat.chat_id) }}">
+                <div class="block">
                         <div class="imgbx">
                             <img src="../static/Image/user.svg" class="cover">
                         </div>
@@ -67,10 +68,12 @@
                             </div>
                             <div class="message_p">
                                 <p>{{ chat.text }}</p>
+                                
                                 <!-- Ajoutez ici d'autres détails du chat, par exemple, le dernier message -->
                             </div>
                         </div>
                     </div>
+                </a>
                 {% endfor %}
             </div>
         </div>
@@ -80,13 +83,20 @@
                     <div class="user1">
                         <img src="../static/Image/user.svg" class="cover">
                     </div>
-                    <h4>{{ user.first_name }}<br><span>{% if user.online %}Online{% else %}Offline{% endif %}</span></h4>
+                    <h4>  {{username}} </h4>
+                    <!--<h4>{{ user.first_name }}<br><span>{% if user.online %}Online{% else %}Offline{% endif %}</span></h4>-->
                     <!--le nom du contact et si il est en ligne ou non-->
                 </div>
             </div>
     
             <!--chatbox-->
             <div class="chatbox">
+                {% if messages %}
+                    {% for message in messages%}
+                        <li>{{ message['User'] }} - {{ message['Text'] }} - {{ message['Date'].strftime('%H:%M') }}</li>
+                    {% endfor %}
+                {% endif %}
+
                 <!-- Mettez ici le contenu de la chatbox, dynamiquement chargé avec JavaScript -->
             </div>
             <!--chat list-->
