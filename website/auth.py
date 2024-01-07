@@ -41,6 +41,15 @@ from flask_mail import Mail, Message
 
 auth = Blueprint('auth', __name__)
 
+@auth.route('/send_message/<int:receiver_id>')
+def send_message(receiver_id):
+    sender_id = current_user
+    new_message = Message(sender_id=sender_id, receiver_id=receiver_id, content='bonjour')
+
+    db.session.add(new_message)
+    db.session.commit()
+    return redirect(url_for('views.home'))
+
 
 
 @auth.route('/login', methods=['GET', 'POST'])
