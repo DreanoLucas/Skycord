@@ -67,7 +67,7 @@
                                 <!-- Ajoutez ici d'autres détails du chat, par exemple, la dernière heure du message -->
                             </div>
                             <div class="message_p">
-                                <p>{{ chat.text }}</p>
+                                <p>{% if chat.text %}{{ chat.text }}{% endif %}</p>
                                 
                                 <!-- Ajoutez ici d'autres détails du chat, par exemple, le dernier message -->
                             </div>
