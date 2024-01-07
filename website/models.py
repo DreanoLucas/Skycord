@@ -62,5 +62,5 @@ class FriendRequest(db.Model):
     sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     accepted = db.Column(db.Boolean, default=False)
-    sender = db.relationship('User', foreign_keys=[sender_id])
-    receiver = db.relationship('User', foreign_keys=[receiver_id])
+    sender = db.relationship('User', foreign_keys=[sender_id], lazy='joined') 
+    receiver = db.relationship('User', foreign_keys=[receiver_id], lazy='joined')
