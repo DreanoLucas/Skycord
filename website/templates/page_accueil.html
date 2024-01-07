@@ -37,7 +37,7 @@
             <!--header-->
             <div class="header">
                 <div class="user">
-                    <img src="../static/Image/user.svg"  class="cover">
+                    <img src="../static/Image/user.svg" class="cover">
                 </div>
                 <ul class="nav_icons">
                     <li><a href="{{ url_for('friend.ajouter') }}"><ion-icon name="person-add-outline"></ion-icon></a></li>
@@ -54,66 +54,43 @@
             </div>
             <!--chat list-->
             <div class="chatlist">
-                <div class="block">
-                    <div class="imgbx">
-                        <img src="../static/Image/user.svg" class="cover">
-                    </div>
-                    <div class="details">
-                        <div class="listHead">
-                            <h4>Samir</h4>  <!--le nom de l'ami-->
-                            <p class="time">11:00 </p> <!--le temps du dernier message-->
+                {% for chat in chats %}
+                    <div class="block">
+                        <div class="imgbx">
+                            <img src="../static/Image/user.svg" class="cover">
                         </div>
-                        <div class="message_p">
-                            <p>je suis incroyablement nulle au code donc je regarde des vidéo</p> <!--son dernier message-->
-                        </div>
-                    </div>
-                </div>
-                <div class="block unread">
-                    <div class="imgbx">
-                        <img src="../static/Image/user.svg" class="cover">
-                    </div>
-                    <div class="details">
-                        <div class="listHead">
-                            <h4>joel</h4> <!-- un autre ami-->
-                            <p class="time">11:00 </p>
-                        </div>
-                        <div class="message_p">
-                            <p>ccc </p>
-                            <b>1</b> <!--si le message n'est pas lu -->
+                        <div class="details">
+                            <div class="listHead">
+                                <h4>{{ chat.chat_name }}</h4>
+                                <p class="time">{% if chat.date %}{{ chat.date.strftime('%H:%M') }}{% endif %}</p>
+                                <!-- Ajoutez ici d'autres détails du chat, par exemple, la dernière heure du message -->
+                            </div>
+                            <div class="message_p">
+                                <p>{{ chat.text }}</p>
+                                <!-- Ajoutez ici d'autres détails du chat, par exemple, le dernier message -->
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
         <div class="rightside">
             <div class="header">
                 <div class="imgtext">
                     <div class="user1">
-                        <img src="../static/Image/user.svg"  class="cover">
+                        <img src="../static/Image/user.svg" class="cover">
                     </div>
-                    <h4>Prenom<br><span>Online</span></h4> <!--le nom du contact et si il est en ligne ou non-->
+                    <h4>{{ user.first_name }}<br><span>{% if user.online %}Online{% else %}Offline{% endif %}</span></h4>
+                    <!--le nom du contact et si il est en ligne ou non-->
                 </div>
             </div>
-
+    
             <!--chatbox-->
             <div class="chatbox">
-                <div class="amis1">
-                    <div class="message my_message">
-                        <p>Salut moi c'est kim et Samuel est une pétasse<br><span>12:15</span></p>  <!--le temps du message envoyé-->
-                    </div>
-                    <div class="message frnd_message">
-                        <p>Salut moi c'est Samir et je confirme Samuel est une pétasse <br><span>12:16</span></p>
-                    </div>  
-                </div>
-                <div class="amis2">
-                    <div class="message my_message">
-                        <p>Salut joel<br><span>12:15</span></p>  <!--le temps du message envoyé-->
-                    </div>
-                    <div class="message frnd_message">
-                        <p>Bonjour kim et je confirme ce qu'a dit Samir<br><span>12:16</span></p>
-                    </div>  
-                </div>
+                <!-- Mettez ici le contenu de la chatbox, dynamiquement chargé avec JavaScript -->
             </div>
+            <!--chat list-->
+    
             <!--chat input-->
             <div class="chatbox_input">
                 <input type="text" placeholder="Type a message">
@@ -121,6 +98,7 @@
             </div>
         </div>
     </div>
+    
     
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

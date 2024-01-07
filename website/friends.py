@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from . import db
 from flask_login import current_user, login_required
 
-from .models import FriendRequest, User, Friend
+from .models import FriendRequest, User, Friend, Chat, ChatMember
 
 friend = Blueprint('friend', __name__)
 
@@ -73,6 +73,13 @@ def accept_demand(demande_id):
         friend_entry_1 = Friend(user_id=friend_request.sender_id, friend_id=friend_request.receiver_id)
         friend_entry_2 = Friend(user_id=friend_request.receiver_id, friend_id=friend_request.sender_id, reciprocal=True)
         db.session.add_all([friend_entry_1, friend_entry_2])
+        new_chat = Chat(chat_name=f"{friend_request.sender.name} et {friend_request.receiver.name}", is_group=False)
+        db.session.add(new_chat)
+        db.session.commit()
+        chat_member_1 = ChatMember(chat_id=new_chat.chat_id, user_id=friend_request.sender_id)
+        chat_member_2 = ChatMember(chat_id=new_chat.chat_id, user_id=friend_request.receiver_id)
+        db.session.add_all([chat_member_1, chat_member_2])
+        db.session.commit()
         db.session.commit()
 
         flash(f"Vous êtes maintenant ami avec {friend_request.sender.name}.", category='success')
@@ -96,36 +103,5 @@ def reject_demand(demande_id):
 
     return redirect(url_for('friend.ajouter'))
 
-from flask import Flask, jsonify
 
-@friend.route('/check_friendship/<int:user_id1>/<int:user_id2>', methods=['GET'])
-def check_friendship(user_id1, user_id2):
-    friendship_entry = Friend.query.filter(
-        (Friend.user_id == user_id1) & (Friend.friend_id == user_id2) |
-        (Friend.user_id == user_id2) & (Friend.friend_id == user_id1)
-    ).first()
 
-    if friendship_entry:
-        # Les utilisateurs sont déjà amis
-        return jsonify({'status': 'success', 'message': 'Les utilisateurs sont amis.'}), 200
-    else:
-        # Les utilisateurs ne sont pas amis
-        return jsonify({'status': 'error', 'message': 'Les utilisateurs ne sont pas amis.'}), 404
-
-@friend.route('/remove_all_friendships')
-def remove_all_relationships():
-    try:
-        # Supprimer toutes les entrées de la table Friend
-        db.session.query(Friend).delete()
-
-        # Supprimer toutes les entrées de la table FriendRequest
-        db.session.query(FriendRequest).delete()
-
-        # Valider la transaction
-        db.session.commit()
-
-        return jsonify({'status': 'success', 'message': 'Toutes les relations ont été supprimées.'}), 200
-    except Exception as e:
-        # En cas d'erreur, annuler la transaction et renvoyer une réponse d'erreur
-        db.session.rollback()
-        return jsonify({'status': 'error', 'message': str(e)}), 500
