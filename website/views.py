@@ -17,7 +17,7 @@ Dependencies:
     - current_user: Function from Flask-Login to get the current logged-in user.
 """
 
-from flask import Blueprint, render_template, url_for, redirect
+from flask import Blueprint, render_template, url_for, redirect, session
 from flask_login import login_required, current_user
 from . import db
 from .models import *
@@ -26,6 +26,7 @@ views = Blueprint('views', __name__)
 @views.route('/')
 @login_required
 def home():
+
     """Renders the home page.
 
     Checks if the user is logged in (using Flask-Login's login_required decorator).
@@ -49,6 +50,12 @@ def home():
                     db.and_(Message.chat_id == Chat.chat_id, Message.date == subquery.c.max_date), isouter=True).filter(
                             User.id == current_user.id).order_by(Message.date.desc())
 
+    messages = session.pop('sorted_messages', None)
+    receiverName = ""
+    if messages:
+        receiverName = messages[0]['Receiver']
     return render_template('page_accueil.html',
                             user=current_user,
-                            chats=user_chats.all())
+                            username = receiverName,
+                            chats=user_chats.all(),
+                            messages=messages)

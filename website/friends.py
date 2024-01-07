@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from . import db
 from flask_login import current_user, login_required
 
-from .models import FriendRequest, User, Friend, Chat, ChatMember
+from .models import FriendRequest, User, Friend, Chat, ChatMember, Message
 
 friend = Blueprint('friend', __name__)
 
@@ -104,4 +104,36 @@ def reject_demand(demande_id):
     return redirect(url_for('friend.ajouter'))
 
 
+
+@friend.route('/getChatDetails/<int:chat_id>')
+@login_required
+def getChatDetails(chat_id):
+    members = ChatMember.query.filter_by(chat_id=chat_id).all()
+    member_ids = [member.user_id for member in members]
+
+    all_messages = Message.query.filter_by(chat_id=chat_id).order_by(Message.date).all()
+    receiverName = User.query.filter_by(id=member_ids[1]).first().name
+
+    if(receiverName == current_user.name):
+        receiverName = User.query.filter_by(id=member_ids[0]).first().name
+    messages_users = []
+
+    print(receiverName)
+    print(current_user.name)
+    for message in all_messages:
+        sender = User.query.filter_by(id=message.user_id).first().id
+        receiver = User.query.filter_by(id=message.user_id).first().id
+
+        user = sender if message.user_id == member_ids[0] else receiver
+        messages_users.append({
+            'Sender': current_user.id,
+            'Receiver': receiverName,
+            'UserId': user,
+            'Username': User.query.filter_by(id=user).first().name,
+            'Text': message.text,
+            'Date': message.date
+        })
+
+    session['sorted_messages'] = messages_users
+    return redirect(url_for('views.home'))
 
