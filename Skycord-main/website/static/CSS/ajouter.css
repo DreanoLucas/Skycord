@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(#8800FF, #8800FF 130px, #d9dbd5);
+}
+
+.container {
+    position: relative;
+    width: 1396px;
+    max-width: 100%;
+    height: calc(100vh - 40px);
+    background: #e5ddd5;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.6), 0 2px 5px 0 rgba(0, 0, 0, 0.06);
+    display: flex;
+    background: url(../Image/fond.png);
+    border-radius: 10px;
+}
+
+.barre {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #ffffff;
+    opacity: 0.6;
+}
+
+.barre a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-left: 10px;
+    text-decoration: none;
+    color: #000;
+}
+
+.barre ion-icon {
+    font-size: 2.5em;
+}
+
+.contain {
+    width: 425px; 
+    margin: 0 auto;
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+}
+
+.contain1 h1,
+.contain1 h2 {
+    text-align: center; 
+    margin-bottom: 20px; 
+}
+
+.contain1 {
+    width: px;
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid rgba(255,255,255,.2);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba (0,0,0, .2);
+    border-radius: 10px;
+    padding: 30px ;
+    
+   }
+
+
+
+.bouton {
+    text-align: center;
+    width: 100%;
+}
+
+.accepter {
+    width: 70%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border-radius: 40px;
+    font-weight: 600;
+    background-color: #fff;
+    height: 45px;
+    color: black;
+    text-align: center;
+    cursor: pointer;
+}
+
+.accepter:hover {
+    background-color: #53019b74;
+}
+
+
+
+.amisEnAttente h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.amiEnAttente ul {
+    list-style: none;
+    padding: 0;
+}
+
+.amiEnAttente ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #8800FF;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.amiEnAttente ul li form {
+    display: inline-block;
+}
+
+.amiEnAttente ul li button {
+    width: 100px;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.amiEnAttente ul li button[type="submit"] {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #fff;
+}
+
+.amiEnAttente ul li button[type="submit"]:hover {
+    background-color: #53019b74;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.actions ion-icon{
+    font-size: 2em;
+    cursor: pointer;
+}
+
+
+#friend_name {
+    width: 90%;
+    font-size: 16px;
+    border-radius: 40px;
+    font-weight: 600;
+    background-color: #8800FF;
+    height: 45px;
+    color: #fff;
+    text-align: center;
+}
+
+
+.alert {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    background-color: rgb(230, 230, 250);
+    color: black;
+    border-color: black;
+
+  }
+  
+  .alert-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+  }
+  
+
+.close {
+  float: right;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: inherit;
+  text-shadow: none;
+  opacity: 0.5;
+  margin-left: 10px;
+}
+
+.close:focus,
+.close:hover {
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.75;
+}
