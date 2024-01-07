@@ -91,12 +91,24 @@
     
             <!--chatbox-->
             <div class="chatbox">
+                <div class="amis1">
                 {% if messages %}
                     {% for message in messages%}
-                        <li>{{ message['User'] }} - {{ message['Text'] }} - {{ message['Date'].strftime('%H:%M') }}</li>
+                        {% if message['UserId'] == message['Sender']%}
+                            <div class="message my_message">
+                                <p>{{ message['Text'] }}<br><span>{{ message['Date'].strftime('%H:%M')}}</span></p>  <!--le temps du message envoyé-->
+                            </div>
+                        {% else %}
+                            <div class="message frnd_message">
+                                <p>{{ message['Text'] }}<br><span>{{ message['Date'].strftime('%H:%M') }}</span></p>
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 {% endif %}
+                
 
+
+                </div>
                 <!-- Mettez ici le contenu de la chatbox, dynamiquement chargé avec JavaScript -->
             </div>
             <!--chat list-->

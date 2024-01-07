@@ -121,13 +121,15 @@ def getChatDetails(chat_id):
     print(receiverName)
     print(current_user.name)
     for message in all_messages:
-        sender = User.query.filter_by(id=message.user_id).first().name
-        receiver = User.query.filter_by(id=message.user_id).first().name 
+        sender = User.query.filter_by(id=message.user_id).first().id
+        receiver = User.query.filter_by(id=message.user_id).first().id
 
         user = sender if message.user_id == member_ids[0] else receiver
         messages_users.append({
+            'Sender': current_user.id,
             'Receiver': receiverName,
-            'User': user,
+            'UserId': user,
+            'Username': User.query.filter_by(id=user).first().name,
             'Text': message.text,
             'Date': message.date
         })
