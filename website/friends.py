@@ -28,7 +28,7 @@ def groupe():
 @friend.route('/parametre')
 @login_required
 def parametre():
-    return render_template('page_parametre.html')
+    return render_template('parametre.html')
 
 
 @friend.route('/add_friend', methods=['POST'])
