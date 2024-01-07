@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Accueil</title>
-  <link rel="stylesheet" href="../CSS/page_parametre.css">
+  <link rel="stylesheet" href="../static/CSS/page_parametre.css">
 </head>
 <body>
     <div class="container">
@@ -34,7 +34,7 @@
                   </div>
                   
                 <div class="deconnexion">
-                    <a href="page_de_connexion.html">
+                    <a href="{{ url_for('auth.logout') }}">
                     <button type="button">Déconnexion</button>
                     </a>
                 </div>
