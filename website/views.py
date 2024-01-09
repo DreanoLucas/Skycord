@@ -37,42 +37,30 @@ def home():
     Returns:
         Rendered template: Renders the 'acceuil.html' template with user information.
     """
+    from sqlalchemy import text, create_engine
+    from sqlalchemy.orm import sessionmaker
+
+    engine = create_engine('sqlite:///instance/database.db')
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    user_id = current_user.id
+    query = text("""
+        SELECT chat.chat_id AS chat_chat_id, chat.chat_name AS chat_chat_name, message.text AS message_text, message.date AS message_date 
+        FROM chat
+        JOIN chat_member ON chat_member.chat_id = chat.chat_id
+        JOIN user ON user.id = chat_member.user_id
+        LEFT OUTER JOIN (
+            SELECT message.chat_id AS chat_id, max(message.date) AS max_date
+            FROM message GROUP BY message.chat_id
+        ) AS anon_1 ON anon_1.chat_id = chat.chat_id
+        LEFT OUTER JOIN message ON message.chat_id = chat.chat_id AND message.date = anon_1.max_date
+        WHERE user.id = :user_id
+        ORDER BY CASE WHEN message_date IS NULL THEN 0 ELSE 1 END, message_date DESC;
+    """)
 
 
-
-    subquery = db.session.query(
-        Message.chat_id,
-        func.max(Message.date).label('max_date')
-    ).group_by(Message.chat_id).subquery()
-
-    max_date_message = aliased(Message, subquery)
-
-    user_chats = (
-        db.session.query(
-            Chat.chat_id,
-            Chat.chat_name,
-            Message.text,
-            Message.date
-        )
-        .join(ChatMember, ChatMember.chat_id == Chat.chat_id)
-        .join(User, User.id == ChatMember.user_id)
-        .join(subquery, subquery.c.chat_id == Chat.chat_id)
-        .outerjoin(
-            Message,
-            db.and_(
-                Message.chat_id == Chat.chat_id,
-                Message.date == subquery.c.max_date
-            )
-        )
-        .filter(User.id == current_user.id)
-        .order_by(
-            case((Message.date.is_(None), 0),
-                else_=Message.date
-            ).asc(),
-            Message.date.desc()
-        )
-    )
-    print(f'test {user_chats.all()}')
+    user_chats = session.execute(query, {"user_id": user_id})
+    session.close()
     return render_template('page_accueil.html',
                             user=current_user,
                             chats=user_chats.all()
