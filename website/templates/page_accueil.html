@@ -54,7 +54,7 @@
             <!--chat list-->
             <div class="chatlist">
                 {% for chat in chats %}
-                    <a href="{{ url_for('friend.getChatDetails', chat_id=chat[0]) }}">
+                <a href="{{ url_for('message.getChatDetails', chat_id=chat[0]) }}">
                         <div class="block">
                             <div class="imgbx">
                                 <img src="../static/Image/user.svg" class="cover">
@@ -95,32 +95,34 @@
             <!--chatbox-->
             <div class="chatbox">
                 <div class="amis1">
-                {% if messages %}
-                    {% for message in messages%}
-                        {% if message['UserId'] == message['Sender']%}
+                {% if history %}
+                    {% for message in history %}
+                    
+                        {% if message['User'] == currentUserName %}
                             <div class="message my_message">
-                                <p>{{ message['Text'] }}<br><span>{{ message['Date'].strftime('%H:%M')}}</span></p>  <!--le temps du message envoyé-->
+                                <p>{{ message['Text'] }} <span>{{ message['Date'].strftime('%H:%M') }}</span></p>
                             </div>
                         {% else %}
                             <div class="message frnd_message">
-                                <p>{{ message['Text'] }}<br><span>{{ message['Date'].strftime('%H:%M') }}</span></p>
+                                <p>{{ message['Text'] }} <span>{{ message['Date'].strftime('%H:%M') }}</span></p>
                             </div>
                         {% endif %}
+                        
                     {% endfor %}
                 {% endif %}
                 
-
-
                 </div>
                 <!-- Mettez ici le contenu de la chatbox, dynamiquement chargé avec JavaScript -->
             </div>
             <!--chat list-->
     
             <!--chat input-->
-            <div class="chatbox_input">
-                <input type="text" placeholder="Type a message">
-                <ion-icon name="send-outline"></ion-icon>
-            </div>
+            <form method="POST" action="{{ url_for('message.send_message') }}">
+                <div class="chatbox_input">
+                    <input type="text" name="message" placeholder="Ecris ton message">
+                    <button type="submit" name="submit"><ion-icon name="send-outline"></ion-icon></button>
+                </div>
+            </form>
         </div>
     </div>
     

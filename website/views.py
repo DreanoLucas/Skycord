@@ -17,7 +17,8 @@ Dependencies:
     - current_user: Function from Flask-Login to get the current logged-in user.
 """
 
-from flask import Blueprint, render_template, url_for, redirect
+from flask import Blueprint, render_template, url_for, redirect, request
+from flask import session as SESSION
 from flask_login import login_required, current_user
 from . import db
 from .models import *
@@ -39,6 +40,7 @@ def home():
     """
     from sqlalchemy import text, create_engine
     from sqlalchemy.orm import sessionmaker
+
 
     engine = create_engine('sqlite:///instance/database.db')
     Session = sessionmaker(bind=engine)
@@ -70,9 +72,34 @@ def home():
         members = session.execute(query_members, {"chat_id": chat_id}).all()
         chat_members_dict[chat_id] = members
     user_chats = session.execute(query, {"user_id": user_id})
+    chat_id = request.args.get('chat_id')
+    chat_messages = None
+    if chat_id:
+        chat_messages = Message.query.filter_by(chat_id=chat_id).order_by(Message.date.asc()).all()
+
+    
     session.close()
+
+    messages = SESSION.pop('sorted_messages', None)
+    currentUserName = User.query.filter_by(id=current_user.id).first().name 
+
+    if messages:
+    
+        if 'Receiver' in messages[0]:
+            receiverName = messages[0]['Receiver']
+            print(receiverName)
+        else:
+            receiverName = 'No Receiver Found'
+    else:
+        receiverName = 'No Messages Found'
+        
+
+
     return render_template('page_accueil.html',
+                            chat_messages=chat_messages,
                             user=current_user,
+                            currentUserName=currentUserName,
+                            username = receiverName,
                             chats=user_chats.all(),
-                            chat_members=chat_members_dict
-                            )
+                            chat_members=chat_members_dict,
+                            history=messages)

@@ -110,37 +110,6 @@ def reject_demand(demande_id):
 
 
 
-@friend.route('/getChatDetails/<int:chat_id>')
-@login_required
-def getChatDetails(chat_id):
-    members = ChatMember.query.filter_by(chat_id=chat_id).all()
-    member_ids = [member.user_id for member in members]
-
-    all_messages = Message.query.filter_by(chat_id=chat_id).order_by(Message.date).all()
-    receiverName = User.query.filter_by(id=member_ids[1]).first().name
-
-    if(receiverName == current_user.name):
-        receiverName = User.query.filter_by(id=member_ids[0]).first().name
-    messages_users = []
-
-    for message in all_messages:
-        sender = User.query.filter_by(id=message.user_id).first().id
-        receiver = User.query.filter_by(id=message.user_id).first().id
-
-        user = sender if message.user_id == member_ids[0] else receiver
-        messages_users.append({
-            'Sender': current_user.id,
-            'Receiver': receiverName,
-            'UserId': user,
-            'Username': User.query.filter_by(id=user).first().name,
-            'Text': message.text,
-            'Date': message.date
-        })
-
-    session['sorted_messages'] = messages_users
-    session['receiver'] = receiverName
-    return redirect(url_for('views.home'))
-
 
 
 from flask import jsonify
