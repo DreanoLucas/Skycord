@@ -39,9 +39,9 @@
                 </div>
                 <p>{{ user.name }}</p>
                 <ul class="nav_icons">
-                    <li><a href="{{ url_for('friend.ajouter') }}"><ion-icon name="person-add-outline"></ion-icon></a></li>
-                    <li><a href="{{ url_for('friend.groupe') }}"><ion-icon name="people-outline"></ion-icon></a></li>
-                    <li><a href="{{ url_for('friend.parametre') }}"><ion-icon name="ellipsis-vertical"></ion-icon></a></li>
+                    <li><a href="{{ url_for('friend.ajouter') }}"><ion-icon class="icon" name="person-add-outline"></ion-icon></a></li>
+                    <li><a href="{{ url_for('friend.groupe') }}"><ion-icon class="icon" name="people-outline"></ion-icon></a></li>
+                    <li><a href="{{ url_for('friend.parametre') }}"><ion-icon class="icon" name="ellipsis-vertical"></ion-icon></a></li>
                 </ul>
             </div>
             <!--search-->
@@ -129,28 +129,13 @@
     
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const samir = document.querySelector('.leftside .block:nth-child(1)');
-            const joel = document.querySelector('.leftside .block:nth-child(2)');
-            
-            const amis1 = document.querySelector('.rightside .amis1');
-            const amis2 = document.querySelector('.rightside .amis2');
-            const imgtext = document.querySelector('.rightside .imgtext h4');
+        const body = document.body;
 
-            samir.addEventListener('click', () => {
-                amis1.style.display = 'block';
-                amis2.style.display = 'none';
-                imgtext.innerHTML = 'Samir<br><span>Online</span>';
-            });
-
-            joel.addEventListener('click', () => {
-                amis1.style.display = 'none';
-                amis2.style.display = 'block';
-                imgtext.innerHTML = 'Joel<br><span>Online</span>';
-            });
-        });
+        const isDarkMode = localStorage.getItem('darkMode');
+        if (isDarkMode === 'enabled') {
+            body.classList.add('dark-mode');
+        }
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>

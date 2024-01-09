@@ -379,3 +379,65 @@ body{
   text-decoration: none;
   opacity: 0.75;
 }
+
+  
+  .dark-mode .container .rightside::before {
+    background-image: url(../Image/peakpx.jpg);
+  }
+  
+  .dark-mode .barre {
+    background-color: #000000;
+    opacity: 0.5;
+    border: 1.5px solid #1E1E1E;
+  }
+
+.dark-mode  {
+    background: #000000;
+}
+
+
+  .dark-mode .icon {
+    color:  #fff;
+  }
+
+.dark-mode .user , .user1, .imgbx{
+    filter: invert(100%);
+}
+
+.dark-mode .header {
+    background-color: #1E1E1E;
+    color: #fff;
+}
+
+.dark-mode .rightside .header{
+    opacity: 0.7;
+}
+
+.dark-mode .search_chat {
+    background-color: #000000;
+}
+
+.dark-mode .chatlist {
+    background-color: #1E1E1E;
+
+}
+
+.dark-mode .details {
+    color: #fff;
+    border-top:1.5px solid white ;
+    border-bottom: 1.5px solid white;
+}
+
+.dark-mode .chatlist .block:hover{
+    background: #666666;
+}
+
+.dark-mode .chatbox_input{
+    background-color: #000000;
+    border-right:1.5px solid #1E1E1E ;
+    border-bottom: 1.5px solid #1E1E1E;
+} 
+
+.dark-mode .listHead h4 p {
+    color: white;
+}

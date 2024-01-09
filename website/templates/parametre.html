@@ -8,7 +8,7 @@
 <body>
     <div class="container">
       <div class="barre">
-        <a href="{{url_for('views.home')}}"><ion-icon name="arrow-back-outline"></ion-icon></a>
+        <a href="{{url_for('views.home')}}"><ion-icon class="icon" name="arrow-back-outline"></ion-icon></a>
     </div>
         <div class="contain">
             <div class="contain1">
@@ -28,10 +28,10 @@
                   <div class="bouton">
                     <h3>Apparence</h3>
                     <label class="toggle">
-                      <input type="checkbox">
-                      <span class="slider"></span>
+                        <input type="checkbox" id="dark-mode-toggle">
+                        <span class="slider"></span>
                     </label>
-                  </div>
+                </div>
                   
                 <div class="deconnexion">
                     <a href="{{ url_for('auth.logout') }}">
@@ -42,6 +42,34 @@
             </div>
         </div>
     </div>
+    <script>
+      const darkModeToggle = document.getElementById('dark-mode-toggle');
+      const body = document.body;
+  
+      darkModeToggle.addEventListener('change', function() {
+          if (this.checked) {
+              enableDarkMode();
+          } else {
+              disableDarkMode();
+          }
+      });
+  
+      const isDarkMode = localStorage.getItem('darkMode');
+      if (isDarkMode === 'enabled') {
+          enableDarkMode();
+          darkModeToggle.checked = true;
+      }
+  
+      function enableDarkMode() {
+          body.classList.add('dark-mode');
+          localStorage.setItem('darkMode', 'enabled');
+      }
+  
+      function disableDarkMode() {
+          body.classList.remove('dark-mode');
+          localStorage.removeItem('darkMode');
+      }
+    </script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>

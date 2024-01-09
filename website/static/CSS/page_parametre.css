@@ -161,3 +161,26 @@ body{
   .bouton h3 {
     margin-bottom: 20px;
   }  
+
+  .dark-mode {
+    background-color: #1E1E1E;
+  }
+  
+  .dark-mode .container {
+    background-image: url(../Image/peakpx.jpg);
+  }
+  
+  .dark-mode .barre {
+    background-color: #000000;
+    opacity: 0.5;
+    border: 1.5px solid #1E1E1E;
+  }
+
+.dark-mode  {
+    background: #000000;
+}
+
+
+  .dark-mode .icon {
+    color:  #fff;
+  }
