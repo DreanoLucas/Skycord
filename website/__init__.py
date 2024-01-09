@@ -52,10 +52,12 @@ def create_app():
     from .views import views
     from .friends import friend
     from .auth import auth
-
+    from .message import message
+    
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(friend, url_prefix='/')
+    app.register_blueprint(message, url_prefix='/')
 
     from .models import User, Message
 
