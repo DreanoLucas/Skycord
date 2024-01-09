@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, render_template
 from flask_login import login_required, current_user
 from .models import db, Message
 from flask_socketio import emit
-
+from datetime import datetime
 from ..main import socketio
 
 message = Blueprint('message', __name__)
@@ -23,15 +23,11 @@ def send_message():
         chat_id = request.form.get("chat_id")
 
         if message_text and chat_id:
-            new_message = Message(text=message_text, user_id=current_user.id, chat_id=chat_id)
+            new_message = Message(text=message_text, user_id=current_user.id, chat_id=chat_id, date=datetime.now())
             db.session.add(new_message)
             db.session.commit()
             socketio.emit('message', {'text': message_text, 'user': current_user.name, 'date': new_message.date}, roon=chat_id)
-            return jsonify({'success': True, 'message': 'Message envoyé'})
-        else:
-            return jsonify({'success': False, 'message': 'Message ou ID invalide'})
-    else:
-        return jsonify({'success': False, 'message': 'Methode de requete invalide'})
+        
     
 
 @message.route('/chat/<int:chat_id>')
@@ -48,5 +44,4 @@ def display_chat(chat_id):
         Rendered template: Renders the chat template with messages for the specified chat.
     """
     chat_messages = Message.query.filter_by(chat_id=chat_id).order_by(Message.date.desc()).all()
-
     return render_template('chat.html', user=current_user, chat_messages=chat_messages)
