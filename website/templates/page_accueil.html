@@ -60,7 +60,14 @@
                             </div>
                             <div class="details">
                                 <div class="listHead">
-                                    <h4>{{ chat[1] }}</h4>
+                                    <h4>{% if chat[0] in chat_members %}
+                                        {% if user.id == chat_members[chat[0]][0][0] %}
+                                            <p>{{ chat_members[chat[0]][1][1] }}</p>
+                                        {% else %}
+                                            <p>{{ chat_members[chat[0]][0][1] }}</p>
+                                        {% endif %}
+                                        {% endif %}
+                                    </h4>
                                     <p class="time">{% if chat[3] %}{{chat[3]}}{% else %}Inconnu {% endif %}</p>
                                 </div>
                                 <div class="message_p">

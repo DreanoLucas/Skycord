@@ -57,11 +57,22 @@ def home():
         WHERE user.id = :user_id
         ORDER BY CASE WHEN message_date IS NULL THEN 0 ELSE 1 END, message_date DESC;
     """)
-
-
+    user_chats = session.execute(query, {"user_id": user_id})
+    chat_members_dict = {}
+    for chat in user_chats:
+        chat_id = chat[0]
+        query_members = text("""
+            SELECT user.id, user.name
+            FROM user
+            JOIN chat_member ON chat_member.user_id = user.id
+            WHERE chat_member.chat_id = :chat_id
+        """)
+        members = session.execute(query_members, {"chat_id": chat_id}).all()
+        chat_members_dict[chat_id] = members
     user_chats = session.execute(query, {"user_id": user_id})
     session.close()
     return render_template('page_accueil.html',
                             user=current_user,
-                            chats=user_chats.all()
+                            chats=user_chats.all(),
+                            chat_members=chat_members_dict
                             )
