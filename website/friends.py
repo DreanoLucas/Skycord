@@ -138,6 +138,7 @@ def getChatDetails(chat_id):
         })
 
     session['sorted_messages'] = messages_users
+    session['receiver'] = receiverName
     return redirect(url_for('views.home'))
 
 
