@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Accueil</title>
     <link rel="stylesheet" href="../static/CSS/page_acuuel.css">
-
+  
 </head>
 <body>
     <div class="alert-container">
@@ -53,8 +53,10 @@
             </div>
             <!--chat list-->
             <div class="chatlist">
+                
+
                 {% for chat in chats %}
-                <a href="{{ url_for('message.getChatDetails', chat_id=chat[0]) }}">
+                <a href="{{ url_for('message.getChatDetails', chat_id=chat[0]) }}" onload="scrollToBottom()">
                         <div class="block">
                             <div class="imgbx">
                                 <img src="../static/Image/user.svg" class="cover">
@@ -125,7 +127,13 @@
             </form>
         </div>
     </div>
+    <script>
+        var chatbox = document.querySelector('.chatbox');
     
+        window.onload = function() {
+            chatbox.scrollTop = chatbox.scrollHeight;
+        };
+    </script>
     
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

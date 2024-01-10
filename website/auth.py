@@ -86,6 +86,10 @@ def login():
 
     return render_template("page_de_connexion.html")
 
+@auth.route('/supprimer')
+def supprimerMessage():
+    db.session.query(Message).delete()
+    db.session.commit()
 
 @auth.route('/logout')
 @login_required

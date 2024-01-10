@@ -11,6 +11,8 @@ message = Blueprint('message', __name__)
 
 idDuChat = -1
 
+
+
 @message.route('/getChatDetails/<int:chat_id>')
 @login_required
 def getChatDetails(chat_id):
